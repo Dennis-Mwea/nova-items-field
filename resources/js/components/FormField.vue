@@ -114,13 +114,10 @@ export default {
     },
 
     methods: {
-
-
         setInitialValue() {
             this.value = this.field.value || [];
             this.items = this.field.value || [];
         },
-
 
         fill(formData) {
             formData.append(this.field.attribute, this.value || [])
@@ -129,8 +126,14 @@ export default {
 		addItem() {
             const item = this.newItem.trim()
 
+            let options = ['A', 'B', 'C', 'D', 'E']
+
 			if (item && ! this.maxReached) {
-				this.items.push(item)
+			    if (this.items.length == 0) {
+			        this.items.push(`A) ${item}`)
+                } else {
+                    this.items.push(`${options[this.items.length]}) ${item}`)
+                }
                 this.newItem = ''
 
                 this.$nextTick(() => {
@@ -155,6 +158,7 @@ export default {
             return this.arrayErrors.hasOwnProperty(key);
 		}
     },
+
     computed: {
         maxHeight()
         {
@@ -169,6 +173,7 @@ export default {
             return this.field.max !== false && this.items.length + 1 > this.field.max;
         }
     },
+
     watch: {
         'items': {
             handler: function (items) {
